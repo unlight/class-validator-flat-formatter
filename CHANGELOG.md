@@ -1,3 +1,10 @@
+## 1.0.0 (2021-03-25)
+
+
+### Features
+
+* First release ([c3e3b46](https://github.com/unlight/class-validator-flat-formatter/commit/c3e3b46b54f766c37bd2bd8608df4109dde5a418))
+
 # [class-validator-flat-formatter-v1.0.1](https://github.com/unlight/nestjs-graphql-prisma-realworld-example-app/compare/class-validator-flat-formatter-v1.0.0...class-validator-flat-formatter-v1.0.1) (2021-01-16)
 
 
