@@ -1,3 +1,4 @@
+import { IsNotEmpty, Length, Min, validate } from 'class-validator';
 import { stripIndents } from 'common-tags';
 import expect from 'expect';
 
@@ -5,6 +6,16 @@ import { classValidatorFlatFormatter } from '.';
 import { ValidationError } from './validation-error';
 
 describe('classValidatorFlatFormatter', () => {
+    it('built in to string', async () => {
+        class User {
+            @Length(3, 30) name!: string;
+            @IsNotEmpty() @Min(18) age!: number;
+        }
+        const user = new User();
+        const result = await validate(user);
+        expect(result).toBeTruthy();
+    });
+
     it('single error object', () => {
         const error: ValidationError = {
             value: 'aa@mai1l1',
