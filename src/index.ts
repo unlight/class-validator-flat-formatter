@@ -7,7 +7,7 @@ import { ValidationError } from './validation-error';
 export function classValidatorFlatFormatter(
     errors: ValidationError[] | ValidationError,
     parentPath = '',
-) {
+): string {
     if (!Array.isArray(errors)) {
         errors = [errors];
     }
