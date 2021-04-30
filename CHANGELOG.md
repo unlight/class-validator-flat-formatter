@@ -1,3 +1,14 @@
+## [2.0.0](https://github.com/unlight/class-validator-flat-formatter/compare/v1.0.1...v2.0.0) (2021-04-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* Updated package url
+
+### Documentation
+
+* Updated package url ([22b087c](https://github.com/unlight/class-validator-flat-formatter/commit/22b087c43ffc7fa4e241ac285aae522fb1395481)), closes [#1](https://github.com/unlight/class-validator-flat-formatter/issues/1)
+
 ## 1.0.0 (2021-03-25)
 
 
