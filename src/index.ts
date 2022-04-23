@@ -53,9 +53,8 @@ function formatError(error: ValidationError, parentPath: string): string[] {
     });
 
     if (constraints.length === 0 && error.children) {
-        const childErrors = error.children.flatMap(err =>
-            formatError(err, error.property),
-        );
+        const property = propertyPath(parentPath, error.property);
+        const childErrors = error.children.flatMap(err => formatError(err, property));
         result.push(...childErrors);
     }
 
@@ -63,9 +62,6 @@ function formatError(error: ValidationError, parentPath: string): string[] {
 }
 
 function propertyPath(parent: string, name: string) {
-    if (Number.isInteger(+name)) {
-        name = `[${name}]`;
-    }
     let result = name;
     if (parent) {
         result = `${parent}.${name}`;

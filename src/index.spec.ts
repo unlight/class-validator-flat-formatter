@@ -90,3 +90,20 @@ it('coerce to array', async () => {
         'email: email must be an email (isEmail)',
     ]);
 });
+
+it('array items', async () => {
+    class EmailObject {
+        @IsEmail()
+        value = '';
+    }
+    class User {
+        @ValidateNested()
+        emails = [new EmailObject()];
+    }
+    const user = new User();
+    const errors = await validate(user);
+
+    const result = validationErrorsAsArray(errors);
+
+    expect(result).toContainEqual('emails.0.value: value must be an email (isEmail)');
+});
