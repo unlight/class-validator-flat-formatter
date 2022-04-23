@@ -38,22 +38,14 @@ function formatError(error: ValidationError, parentPath: string): string[] {
         return [];
     }
 
+    const property = propertyPath(parentPath, error.property);
     const constraints = Object.entries(error.constraints || []);
 
-    const result = constraints.flatMap(([constraintName, constraintMessage]) => {
-        const property = propertyPath(parentPath, error.property);
-        const errors = [`${property}: ${constraintMessage} (${constraintName})`];
-        if (error.children?.length) {
-            const childErrors = error.children.flatMap(err =>
-                formatError(err, property),
-            );
-            errors.push(...childErrors);
-        }
-        return errors;
+    const result = constraints.map(([constraintName, constraintMessage]) => {
+        return `${property}: ${constraintMessage} (${constraintName})`;
     });
 
-    if (constraints.length === 0 && error.children) {
-        const property = propertyPath(parentPath, error.property);
+    if (error.children && error.children.length > 0) {
         const childErrors = error.children.flatMap(err => formatError(err, property));
         result.push(...childErrors);
     }
