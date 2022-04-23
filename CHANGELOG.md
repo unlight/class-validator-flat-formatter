@@ -1,3 +1,10 @@
+### [3.0.1](https://github.com/unlight/class-validator-flat-formatter/compare/v3.0.0...v3.0.1) (2022-04-23)
+
+
+### Bug Fixes
+
+* Format array items ([6a9722e](https://github.com/unlight/class-validator-flat-formatter/commit/6a9722e64f623313cce05f52d1771d9f6b9a1ed3))
+
 ## [3.0.0](https://github.com/unlight/class-validator-flat-formatter/compare/v2.0.0...v3.0.0) (2022-04-23)
 
 
