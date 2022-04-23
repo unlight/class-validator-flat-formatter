@@ -2,6 +2,12 @@
 
 Convert array of ValidationError objects from class-validator to multiline string
 
+## Install
+
+```sh
+npm install class-validator-flat-formatter
+```
+
 ## Usage
 
 #### As string
