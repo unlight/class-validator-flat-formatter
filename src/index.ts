@@ -4,7 +4,7 @@ import { ValidationError } from './validation-error';
  * Slightly refactored ValidationError.toString()
  * https://github.com/typestack/class-validator/blob/master/src/validation/ValidationError.ts
  */
-export function classValidatorFlatFormatter(
+export function validationErrorsAsString(
     errors: ValidationError[] | ValidationError,
     parentPath = '',
 ): string {
@@ -13,7 +13,7 @@ export function classValidatorFlatFormatter(
     }
     let result = '';
     if (errors.length > 0) {
-        result = errors.map(err => formatError(err, parentPath)).join(',\n');
+        result = errors.flatMap(err => formatError(err, parentPath)).join(',\n');
         if (result) {
             result += '.';
         }
@@ -21,22 +21,45 @@ export function classValidatorFlatFormatter(
     return result;
 }
 
-function formatError(error: ValidationError, parentPath: string) {
-    if (!isValidationError(error) || !error.constraints) {
-        return '';
+export function validationErrorsAsArray(
+    errors: ValidationError[] | ValidationError,
+    parentPath = '',
+) {
+    if (!Array.isArray(errors)) {
+        errors = [errors];
     }
-    return Object.entries(error.constraints)
-        .map(([constraintName, constraintMessage]) => {
-            const property = propertyPath(parentPath, error.property);
-            let result = `${property}: ${constraintMessage} (${constraintName})`;
-            if (error.children && error.children.length > 0) {
-                result += `,\n${error.children
-                    .map(err => formatError(err, property))
-                    .join(',\n')}`;
-            }
-            return result;
-        })
-        .join(',\n');
+    const result: string[] = errors.flatMap(err => formatError(err, parentPath));
+
+    return result;
+}
+
+function formatError(error: ValidationError, parentPath: string): string[] {
+    if (!isValidationError(error)) {
+        return [];
+    }
+
+    const constraints = Object.entries(error.constraints || []);
+
+    const result = constraints.flatMap(([constraintName, constraintMessage]) => {
+        const property = propertyPath(parentPath, error.property);
+        const errors = [`${property}: ${constraintMessage} (${constraintName})`];
+        if (error.children?.length) {
+            const childErrors = error.children.flatMap(err =>
+                formatError(err, property),
+            );
+            errors.push(...childErrors);
+        }
+        return errors;
+    });
+
+    if (constraints.length === 0 && error.children) {
+        const childErrors = error.children.flatMap(err =>
+            formatError(err, error.property),
+        );
+        result.push(...childErrors);
+    }
+
+    return result;
 }
 
 function propertyPath(parent: string, name: string) {
@@ -53,5 +76,5 @@ function propertyPath(parent: string, name: string) {
 export function isValidationError(
     error?: Partial<ValidationError>,
 ): error is ValidationError {
-    return Boolean(error && error.constraints && error.property);
+    return Boolean(error?.property && (error.constraints || error.children));
 }

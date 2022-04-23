@@ -4,11 +4,32 @@ Convert array of ValidationError objects from class-validator to multiline strin
 
 ## Usage
 
-```ts
-import { classValidatorFlatFormatter } from 'class-validator-flat-formatter';
+#### As string
 
-const message = classValidatorFlatFormatter(errors as ValidationError[]);
-// message =>
-name: minLength error message (minLength),
-name: name should not be empty (isNotEmpty).
+```ts
+import { validationErrorsAsString } from 'class-validator-flat-formatter';
+
+const errors = await validate(user);
+
+const message = validationErrorsAsString(errors);
+/** 
+message(String) =>
+name: minLength error message (minLength),\n
+email: email must be an email (isEmail).
+*/
+```
+
+#### As array
+
+```ts
+import { validationErrorsAsArray } from 'class-validator-flat-formatter';
+
+const errors = await validate(user);
+const messages = validationErrorsAsArray(errors);
+/** 
+messages => Array<string> {
+    'name: minLength error message (minLength)',
+    'email: email must be an email (isEmail)'
+}
+*/
 ```
