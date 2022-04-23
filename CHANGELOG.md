@@ -1,3 +1,19 @@
+## [3.0.0](https://github.com/unlight/class-validator-flat-formatter/compare/v2.0.0...v3.0.0) (2022-04-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* Used `flatMap()`, node.js v12+ is required
+
+### Features
+
+* Validate errors as array ([ab11304](https://github.com/unlight/class-validator-flat-formatter/commit/ab11304a13c80cbef27a450083ca52e358a00304))
+
+
+### Build System
+
+* Hybrid module ([0354df8](https://github.com/unlight/class-validator-flat-formatter/commit/0354df857225382fd38eb9c4da38d98aac42191a))
+
 ## [2.0.0](https://github.com/unlight/class-validator-flat-formatter/compare/v1.0.1...v2.0.0) (2021-04-30)
 
 
