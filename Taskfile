@@ -13,10 +13,8 @@ commit_lint() {
 build_hybrid() {
     set -x
     rm -rfv dist
-    formats=('cjs' 'esm')
-    for format in ${formats[*]}; do
-        npx tsup src/index.ts -d=dist/${format} --keep-names --format=${format} --target=es2020 --external=reflect-metadata --sourcemap
-    done
+    npx tsup src/index.ts -d=dist/esm --keep-names --format=esm --target=es2020 --external=reflect-metadata --sourcemap
+    npx tsup src/index.ts -d=dist/cjs --keep-names --format=cjs --target=es2020 --external=reflect-metadata --sourcemap
     npx tsup src/index.ts -d=dist --dts-only
     echo {\"type\": \"module\"} >dist/esm/package.json
     echo {\"type\": \"commonjs\"} >dist/cjs/package.json
