@@ -8,9 +8,7 @@ export function validationErrorsAsString(
   errors: ValidationError[] | ValidationError,
   parentPath = '',
 ): string {
-  if (!Array.isArray(errors)) {
-    errors = [errors];
-  }
+  errors = Array.isArray(errors) ? errors : [errors];
   let result = '';
   if (errors.length > 0) {
     result = errors.flatMap(err => formatError(err, parentPath)).join(',\n');
@@ -25,9 +23,7 @@ export function validationErrorsAsArray(
   errors: ValidationError[] | ValidationError,
   parentPath = '',
 ) {
-  if (!Array.isArray(errors)) {
-    errors = [errors];
-  }
+  errors = Array.isArray(errors) ? errors : [errors];
   const result: string[] = errors.flatMap(err => formatError(err, parentPath));
 
   return result;

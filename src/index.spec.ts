@@ -23,6 +23,11 @@ it('built in to string', async () => {
   expect(errors).toBeTruthy();
 });
 
+it('no errors should return empty', () => {
+  const message = validationErrorsAsString([]);
+  expect(message).toEqual('');
+});
+
 it('single error object', async () => {
   class User {
     @IsEmail() email = '';
@@ -39,8 +44,18 @@ it('single error object', async () => {
 it('fault tollerance', () => {
   const errors: Partial<ValidationError>[] = [{}];
   expect(validationErrorsAsString(errors as ValidationError[])).toEqual('');
+  expect(validationErrorsAsString({} as ValidationError)).toEqual('');
   expect(validationErrorsAsString(undefined as any)).toEqual('');
   expect(validationErrorsAsString(null as any)).toEqual('');
+});
+
+it('single error', () => {
+  const error: ValidationError = {
+    property: 'property',
+    constraints: { prop: 'error' },
+  };
+  expect(validationErrorsAsString(error)).toEqual('property: error (prop).');
+  expect(validationErrorsAsArray(error)).toEqual(['property: error (prop)']);
 });
 
 it('several errors with single constraint', async () => {
