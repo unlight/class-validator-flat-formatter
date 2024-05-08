@@ -3,9 +3,6 @@
   "version": "0.0.0-dev",
   "license": "MIT",
   "description": "Convert array of ValidationError objects from class-validator to multiline string",
-  "files": [
-    "dist"
-  ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -29,7 +26,7 @@
   ],
   "scripts": {
     "test": "npm run eslint && npm run tscheck && npm run test:cov",
-    "test:r": "node -r ts-node/register/transpile-only node_modules/mocha/bin/_mocha src/**/*.spec.ts",
+    "test:r": "node -r ts-node/register node_modules/mocha/bin/_mocha src/**/*.spec.ts",
     "test:cov": "c8 --reporter text --exclude \"**/*.spec.ts\" --exclude \"**/testing/**\"  npm run test:r -- --no-timeouts",
     "test:w": "npm run test:r -- --watch --watch-files src/**/*.ts",
     "test:m": "node node_modules/@stryker-mutator/core/bin/stryker.js run",
@@ -45,7 +42,7 @@
     "dev": "node node_modules/webpack-dev-server/bin/webpack-dev-server",
     "build": "sh Taskfile build_pkgroll",
     "mocha": "node node_modules/mocha/bin/_mocha",
-    "test:d": "ndb -r ts-node/register/transpile-only node_modules/mocha/bin/_mocha --no-timeouts --watch-files src/**/*.ts --watch src/**/*.spec.ts"
+    "test:d": "ndb -r ts-node/register node_modules/mocha/bin/_mocha --no-timeouts --watch-files src/**/*.ts --watch src/**/*.spec.ts"
   },
   "config": {
     "commitizen": {
