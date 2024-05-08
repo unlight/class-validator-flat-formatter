@@ -1,3 +1,10 @@
+## [4.0.1](https://github.com/unlight/class-validator-flat-formatter/compare/v4.0.0...v4.0.1) (2024-05-08)
+
+
+### Bug Fixes
+
+* CI build ([a0ef1c5](https://github.com/unlight/class-validator-flat-formatter/commit/a0ef1c5145aeb2dcd43598352b2bca4023decfc5))
+
 ## [4.0.0](https://github.com/unlight/class-validator-flat-formatter/compare/v3.0.1...v4.0.0) (2024-05-08)
 
 
