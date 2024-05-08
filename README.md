@@ -20,8 +20,8 @@ const errors = await validate(user);
 const message = validationErrorsAsString(errors);
 /** 
 message(String) =>
-name: minLength error message (minLength),\n
-email: email must be an email (isEmail).
+name: should not be empty (isNotEmpty),\n
+email: must be an email (isEmail).
 */
 ```
 
@@ -34,8 +34,8 @@ const errors = await validate(user);
 const messages = validationErrorsAsArray(errors);
 /** 
 messages => Array<string> {
-    'name: minLength error message (minLength)',
-    'email: email must be an email (isEmail)'
+    'name: should not be empty (isNotEmpty)',
+    'email: must be an email (isEmail)'
 }
 */
 ```

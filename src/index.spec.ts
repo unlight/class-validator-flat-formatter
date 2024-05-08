@@ -37,7 +37,7 @@ it('single error object', async () => {
   const errors = await validate(user);
 
   expect(validationErrorsAsString(errors)).toEqual(
-    'email: email must be an email (isEmail).',
+    'email: must be an email (isEmail).',
   );
 });
 
@@ -68,8 +68,8 @@ it('several errors with single constraint', async () => {
   const errors = await validate(user);
 
   expect(validationErrorsAsString(errors)).toEqual(stripIndents`
-        name: name must be longer than or equal to 3 characters (minLength),
-        password: password should not be empty (isNotEmpty).
+        name: must be longer than or equal to 3 characters (minLength),
+        password: should not be empty (isNotEmpty).
         `);
 });
 
@@ -90,9 +90,7 @@ it('validationErrorsAsArray', async () => {
 
   expect(result).toBeInstanceOf(Array);
   expect(result).toHaveLength(3);
-  expect(result).toContainEqual(
-    'email.value: value must be an email (isEmail)',
-  );
+  expect(result).toContainEqual('email.value: must be an email (isEmail)');
 });
 
 it('coerce to array', async () => {
@@ -104,7 +102,7 @@ it('coerce to array', async () => {
   const errors = await validate(user);
 
   expect(validationErrorsAsArray(errors[0] as ValidationError)).toEqual([
-    'email: email must be an email (isEmail)',
+    'email: must be an email (isEmail)',
   ]);
 });
 
@@ -122,7 +120,5 @@ it('array items', async () => {
 
   const result = validationErrorsAsArray(errors);
 
-  expect(result).toContainEqual(
-    'emails.0.value: value must be an email (isEmail)',
-  );
+  expect(result).toContainEqual('emails.0.value: must be an email (isEmail)');
 });

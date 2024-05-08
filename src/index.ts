@@ -38,6 +38,11 @@ function formatError(error: ValidationError, parentPath: string): string[] {
   const constraints = Object.entries(error.constraints || []);
 
   const result = constraints.map(([constraintName, constraintMessage]) => {
+    const [lastPiece] = property.split('.').slice(-1);
+    const stripPart = `${lastPiece} `;
+    if (constraintMessage.startsWith(stripPart)) {
+      constraintMessage = constraintMessage.slice(stripPart.length);
+    }
     return `${property}: ${constraintMessage} (${constraintName})`;
   });
 
