@@ -1,3 +1,19 @@
+## [4.0.0](https://github.com/unlight/class-validator-flat-formatter/compare/v3.0.1...v4.0.0) (2024-05-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* New format of message e.g. 'name: should not be empty (isNotEmpty)'
+
+### Features
+
+* Strip start of constraint message if it is same as property ([86bf3e5](https://github.com/unlight/class-validator-flat-formatter/commit/86bf3e5974ae09b1264b1cdc31b457a28912fbda))
+
+
+### Reverts
+
+* Revert "Auxiliary commit to revert individual files from 86bf3e5974ae09b1264b1cdc31b457a28912fbda" ([5a84e2f](https://github.com/unlight/class-validator-flat-formatter/commit/5a84e2f4f02dc1fe12c98693163c53d5a9c58b72))
+
 ### [3.0.1](https://github.com/unlight/class-validator-flat-formatter/compare/v3.0.0...v3.0.1) (2022-04-23)
 
 
