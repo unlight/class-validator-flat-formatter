@@ -1,3 +1,9 @@
+## [4.1.0](https://github.com/unlight/class-validator-flat-formatter/compare/v4.0.2...v4.1.0) (2024-09-14)
+
+### Features
+
+* Options ([b52f298](https://github.com/unlight/class-validator-flat-formatter/commit/b52f298fe68340a6a4e8379f238244a0749a38fc))
+
 ## [4.0.2](https://github.com/unlight/class-validator-flat-formatter/compare/v4.0.1...v4.0.2) (2024-05-08)
 
 
