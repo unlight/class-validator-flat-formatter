@@ -13,16 +13,29 @@ npm install class-validator-flat-formatter
 #### As string
 
 ```ts
-import { validationErrorsAsString } from 'class-validator-flat-formatter';
+import { validationError } from 'class-validator-flat-formatter';
 
 const errors = await validate(user);
 
-const message = validationErrorsAsString(errors);
-/** 
-message(String) =>
-name: should not be empty (isNotEmpty),\n
-email: must be an email (isEmail).
-*/
+const message = validationError(errors, options);
+// message => name: should not be empty (isNotEmpty), email: must be an email (isEmail)
+```
+
+##### Options
+
+```ts
+export interface ValidationErrorOptions {
+  /**
+   * Delimiter of joined several validation messages.
+   * Default: Comma and space (CS)
+   */
+  delimiter?: Delimiter | string;
+  /**
+   * Period at the end of string.
+   * Default: false
+   */
+  period?: boolean;
+}
 ```
 
 #### As array

@@ -10,8 +10,12 @@ import {
 import { stripIndents } from 'common-tags';
 import expect from 'expect';
 
-import { validationErrorsAsArray, validationErrorsAsString } from '.';
-import { ValidationError } from './validation-error';
+import {
+  validationError,
+  validationErrorsAsArray,
+  validationErrorsAsString,
+} from '.';
+import { ValidationError } from './types';
 
 it('built in to string', async () => {
   class User {
@@ -121,4 +125,30 @@ it('array items', async () => {
   const result = validationErrorsAsArray(errors);
 
   expect(result).toContainEqual('emails.0.value: must be an email (isEmail)');
+});
+
+it('options delimiter', () => {
+  const errors: ValidationError[] = [
+    {
+      property: 'a',
+      constraints: { fail: 'A' },
+    },
+    {
+      property: 'b',
+      constraints: { wrong: 'B' },
+    },
+  ];
+  expect(validationError(errors, { delimiter: '; ' })).toEqual(
+    'a: A (fail); b: B (wrong)',
+  );
+});
+
+it('options period', () => {
+  const errors: ValidationError[] = [
+    {
+      property: 'a',
+      constraints: { boo: 'A' },
+    },
+  ];
+  expect(validationError(errors, { period: true })).toEqual('a: A (boo).');
 });

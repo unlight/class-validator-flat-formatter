@@ -1,3 +1,5 @@
+import { Delimiter } from './delimiter.enum';
+
 /**
  * Validation error description.
  * @see https://github.com/typestack/class-validator
@@ -27,4 +29,17 @@ export interface ValidationError {
    * Contains all nested validation errors of the property.
    */
   children?: ValidationError[];
+}
+
+export interface ValidationErrorOptions {
+  /**
+   * Delimiter of joined several validation messages.
+   * Default: Comma and space (CS)
+   */
+  delimiter?: Delimiter | string;
+  /**
+   * Period at the end of string.
+   * Default: false
+   */
+  period?: boolean;
 }

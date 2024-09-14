@@ -1,30 +1,43 @@
-import { ValidationError } from './validation-error';
+import { Delimiter } from './delimiter.enum';
+import { ValidationError, ValidationErrorOptions } from './types';
+
+export function validationError(
+  errors: ValidationError[] | ValidationError,
+  options: ValidationErrorOptions = {},
+) {
+  const delimiter = options?.delimiter ?? Delimiter.CS;
+  const period = options?.period ?? false;
+
+  errors = Array.isArray(errors) ? errors : [errors];
+
+  let result = '';
+
+  if (errors.length > 0) {
+    result = errors.flatMap(err => formatError(err, '')).join(delimiter);
+    if (result && period) {
+      result += '.';
+    }
+  }
+
+  return result;
+}
 
 /**
  * Slightly refactored ValidationError.toString()
  * https://github.com/typestack/class-validator/blob/master/src/validation/ValidationError.ts
+ * @deprecated Use validationError instead
  */
 export function validationErrorsAsString(
   errors: ValidationError[] | ValidationError,
-  parentPath = '',
 ): string {
-  errors = Array.isArray(errors) ? errors : [errors];
-  let result = '';
-  if (errors.length > 0) {
-    result = errors.flatMap(err => formatError(err, parentPath)).join(',\n');
-    if (result) {
-      result += '.';
-    }
-  }
-  return result;
+  return validationError(errors, { delimiter: Delimiter.CNL, period: true });
 }
 
 export function validationErrorsAsArray(
   errors: ValidationError[] | ValidationError,
-  parentPath = '',
 ) {
   errors = Array.isArray(errors) ? errors : [errors];
-  const result: string[] = errors.flatMap(err => formatError(err, parentPath));
+  const result: string[] = errors.flatMap(err => formatError(err, ''));
 
   return result;
 }
