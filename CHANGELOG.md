@@ -1,3 +1,13 @@
+## [5.0.0](https://github.com/unlight/class-validator-flat-formatter/compare/v4.1.0...v5.0.0) (2024-10-05)
+
+### ⚠ BREAKING CHANGES
+
+* Removed deprecated functions
+
+### Features
+
+* Custom template ([e1767e1](https://github.com/unlight/class-validator-flat-formatter/commit/e1767e1c65aeef57f293453ee785711c9aa24b4b))
+
 ## [4.1.0](https://github.com/unlight/class-validator-flat-formatter/compare/v4.0.2...v4.1.0) (2024-09-14)
 
 ### Features
