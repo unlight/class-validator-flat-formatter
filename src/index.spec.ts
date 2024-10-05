@@ -10,11 +10,7 @@ import {
 import { stripIndents } from 'common-tags';
 import expect from 'expect';
 
-import {
-  validationError,
-  validationErrorsAsArray,
-  validationErrorsAsString,
-} from '.';
+import { validationError, validationErrorsAsArray } from '.';
 import { ValidationError } from './types';
 
 it('built in to string', async () => {
@@ -28,7 +24,7 @@ it('built in to string', async () => {
 });
 
 it('no errors should return empty', () => {
-  const message = validationErrorsAsString([]);
+  const message = validationError([]);
   expect(message).toEqual('');
 });
 
@@ -40,17 +36,15 @@ it('single error object', async () => {
   const user = new User();
   const errors = await validate(user);
 
-  expect(validationErrorsAsString(errors)).toEqual(
-    'email: must be an email (isEmail).',
-  );
+  expect(validationError(errors)).toEqual('email: must be an email (isEmail)');
 });
 
 it('fault tollerance', () => {
   const errors: Partial<ValidationError>[] = [{}];
-  expect(validationErrorsAsString(errors as ValidationError[])).toEqual('');
-  expect(validationErrorsAsString({} as ValidationError)).toEqual('');
-  expect(validationErrorsAsString(undefined as any)).toEqual('');
-  expect(validationErrorsAsString(null as any)).toEqual('');
+  expect(validationError(errors as ValidationError[])).toEqual('');
+  expect(validationError({} as ValidationError)).toEqual('');
+  expect(validationError(undefined as any)).toEqual('');
+  expect(validationError(null as any)).toEqual('');
 });
 
 it('single error', () => {
@@ -58,7 +52,7 @@ it('single error', () => {
     property: 'property',
     constraints: { prop: 'error' },
   };
-  expect(validationErrorsAsString(error)).toEqual('property: error (prop).');
+  expect(validationError(error)).toEqual('property: error (prop)');
   expect(validationErrorsAsArray(error)).toEqual(['property: error (prop)']);
 });
 
@@ -71,13 +65,12 @@ it('several errors with single constraint', async () => {
   const user = new User();
   const errors = await validate(user);
 
-  expect(validationErrorsAsString(errors)).toEqual(stripIndents`
-        name: must be longer than or equal to 3 characters (minLength),
-        password: should not be empty (isNotEmpty).
+  expect(validationError(errors)).toEqual(stripIndents`
+        name: must be longer than or equal to 3 characters (minLength), password: should not be empty (isNotEmpty)
         `);
 });
 
-it('validationErrorsAsArray', async () => {
+describe('nested', () => {
   class EmailObject {
     @IsEmail()
     value = '';
@@ -87,14 +80,32 @@ it('validationErrorsAsArray', async () => {
     @Min(18) age = 0;
     @ValidateNested() email = new EmailObject();
   }
-  const user = new User();
-  const errors = await validate(user);
 
-  const result = validationErrorsAsArray(errors);
+  it('validationErrorsAsArray', async () => {
+    const user = new User();
+    const errors = await validate(user);
 
-  expect(result).toBeInstanceOf(Array);
-  expect(result).toHaveLength(3);
-  expect(result).toContainEqual('email.value: must be an email (isEmail)');
+    const result = validationErrorsAsArray(errors);
+
+    expect(result).toBeInstanceOf(Array);
+    expect(result).toHaveLength(3);
+    expect(result).toContainEqual('email.value: must be an email (isEmail)');
+  });
+
+  it('error by template', async () => {
+    const user = new User();
+    const errors = await validate(user);
+    const message = validationError(errors, {
+      template:
+        '{property} {constraintMessage} | {propertyPath} {constraintRule}',
+    });
+    const lines = message.split(', ').map(line => line.trim());
+    expect(lines[0]).toEqual(
+      'name must be longer than or equal to 3 characters | name isLength',
+    );
+    expect(lines[1]).toEqual('age must not be less than 18 | age min');
+    expect(lines[2]).toEqual('value must be an email | email.value isEmail');
+  });
 });
 
 it('coerce to array', async () => {

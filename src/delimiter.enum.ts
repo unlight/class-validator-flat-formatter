@@ -8,7 +8,7 @@ export const enum Delimiter {
    */
   NL = '\n',
   /**
-   * Command and new line
+   * Comma and new line
    */
   CNL = ',\n',
 }

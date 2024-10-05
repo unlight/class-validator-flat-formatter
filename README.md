@@ -26,6 +26,14 @@ const message = validationError(errors, options);
 ```ts
 export interface ValidationErrorOptions {
   /**
+   * Custom template, tokens:
+   * {propertyPath} - Full dotted property path (e.g user.email)
+   * {property} - Last piece of {propertyPath} (e.g. email)
+   * {constraintRule} - Constraint rule id (e.g. isEmail)
+   * {constraintMessage} - Constraint message (e.g. must be an email)
+   */
+  template?: string;
+  /**
    * Delimiter of joined several validation messages.
    * Default: Comma and space (CS)
    */
@@ -56,3 +64,5 @@ messages => Array<string> {
 ## License
 
 [MIT License](https://opensource.org/licenses/MIT) (c) 2024
+
+# todo oringal errors
