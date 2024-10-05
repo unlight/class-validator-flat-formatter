@@ -1,6 +1,5 @@
 {
   "ts-node": {
-    "swc": false,
     "transpileOnly": true,
     "esm": true
   },
