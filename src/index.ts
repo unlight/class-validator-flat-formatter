@@ -1,4 +1,4 @@
-import { Delimiter } from './delimiter.enum';
+import { Delimiter } from './delimiter.enum.js';
 import { ValidationError, ValidationErrorOptions } from './types';
 import { PlainObject } from 'simplytyped';
 

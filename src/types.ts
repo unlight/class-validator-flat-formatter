@@ -10,7 +10,8 @@ export interface ValidationError {
   /**
    * Object that was validated.
    */
-  target?: Record<string, any>; // tslint:disable-line:no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  target?: Record<string, any>;
   /**
    * Object's property that hasn't passed validation.
    */
@@ -18,7 +19,8 @@ export interface ValidationError {
   /**
    * Value that hasn't passed validation.
    */
-  value?: any; // tslint:disable-line:no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value?: any;
   /**
    * Constraints that failed validation with error messages.
    */

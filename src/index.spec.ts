@@ -8,9 +8,9 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { stripIndents } from 'common-tags';
-import expect from 'expect';
+import { expect } from 'expect';
 
-import { validationError, validationErrorsAsArray } from '.';
+import { validationError, validationErrorsAsArray } from './index.js';
 import { ValidationError } from './types';
 
 it('built in to string', async () => {
