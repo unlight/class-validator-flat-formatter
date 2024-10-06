@@ -1,3 +1,9 @@
+## [5.0.1](https://github.com/unlight/class-validator-flat-formatter/compare/v5.0.0...v5.0.1) (2024-10-06)
+
+### Bug Fixes
+
+* Fix documentation ([d15503f](https://github.com/unlight/class-validator-flat-formatter/commit/d15503fffc426f3b7354eb4d784361b486addae7))
+
 ## [5.0.0](https://github.com/unlight/class-validator-flat-formatter/compare/v4.1.0...v5.0.0) (2024-10-05)
 
 ### ⚠ BREAKING CHANGES
