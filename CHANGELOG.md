@@ -1,3 +1,17 @@
+## [6.0.0](https://github.com/unlight/class-validator-flat-formatter/compare/v5.0.1...v6.0.0) (2025-06-08)
+
+### ⚠ BREAKING CHANGES
+
+* Package is ESM only
+
+### Features
+
+* Group by property errors ([74e3d29](https://github.com/unlight/class-validator-flat-formatter/commit/74e3d29360b19618d96f8f089670f902d4fa342d))
+
+### Build System
+
+* Package is ESM only ([6e722a8](https://github.com/unlight/class-validator-flat-formatter/commit/6e722a8ab3b829ff07c68bdbc802652e54a38014))
+
 ## [5.0.1](https://github.com/unlight/class-validator-flat-formatter/compare/v5.0.0...v5.0.1) (2024-10-06)
 
 ### Bug Fixes
