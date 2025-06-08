@@ -1,4 +1,5 @@
 import {
+  IsDefined,
   IsEmail,
   IsNotEmpty,
   Length,
@@ -10,7 +11,11 @@ import {
 import { stripIndents } from 'common-tags';
 import { expect } from 'expect';
 
-import { validationError, validationErrorsAsArray } from './index.js';
+import {
+  validationError,
+  validationErrorsByProperty,
+  validationErrorsAsArray,
+} from './index.js';
 import { ValidationError } from './types';
 
 it('built in to string', async () => {
@@ -162,4 +167,23 @@ it('options period', () => {
     },
   ];
   expect(validationError(errors, { period: true })).toEqual('a: A (boo).');
+});
+
+describe('group by property', () => {
+  class EmailObject {
+    @IsEmail() @IsNotEmpty() value = '';
+  }
+  class User {
+    @IsDefined() @Min(18) age!: number;
+    @ValidateNested() email = new EmailObject();
+  }
+
+  it('group by property', async () => {
+    const user = new User();
+    const errors = await validate(user);
+    const result = validationErrorsByProperty(errors);
+    expect(result).toEqual(
+      'age: should not be null or undefined (isDefined), must not be less than 18 (min)\nemail.value: should not be empty (isNotEmpty), must be an email (isEmail)',
+    );
+  });
 });

@@ -61,6 +61,21 @@ messages => Array<string> {
 */
 ```
 
+#### validationErrorsByProperty
+
+Group validation errors by property
+
+```ts
+function validationErrorsByProperty(
+  errors: ValidationError[] | ValidationError,
+  template: string = '{constraintMessage} ({constraintRule})',
+  delimiter: string = '\n',
+)
+/**
+age: should not be null or undefined (isDefined), must not be less than 18 (min)
+email.value: should not be empty (isNotEmpty), must be an email (isEmail)
+```
+
 ## License
 
-[MIT License](https://opensource.org/licenses/MIT) (c) 2024
+[MIT License](https://opensource.org/licenses/MIT) (c) 2025

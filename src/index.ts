@@ -1,5 +1,5 @@
 import { Delimiter } from './delimiter.enum.js';
-import { ValidationError, ValidationErrorOptions } from './types';
+import { ErrorElement, ValidationError, ValidationErrorOptions } from './types';
 import { PlainObject } from 'simplytyped';
 
 const defaultTemplate =
@@ -22,9 +22,11 @@ export function validationError(
   let result = '';
 
   if (errors.length > 0) {
-    result = errors
-      .flatMap(err => formatError(err, '', template))
-      .join(delimiter);
+    const errorElements = errors.flatMap(err => getErrorElements(err, ''));
+    const errorStrings = errorElements.map(error =>
+      templateString(template, error),
+    );
+    result += errorStrings.join(delimiter);
     if (result && period) {
       result += '.';
     }
@@ -35,20 +37,40 @@ export function validationError(
 
 export function validationErrorsAsArray(
   errors: ValidationError[] | ValidationError,
-) {
+  template: string = defaultTemplate,
+): string[] {
   errors = Array.isArray(errors) ? errors : [errors];
-  const result: string[] = errors.flatMap(err =>
-    formatError(err, '', defaultTemplate),
-  );
+  const errorElements = errors.flatMap(error => getErrorElements(error, ''));
+  const result = errorElements.map(error => templateString(template, error));
 
   return result;
 }
 
-function formatError(
+export function validationErrorsByProperty(
+  errors: ValidationError[] | ValidationError,
+  template: string = '{constraintMessage} ({constraintRule})',
+  delimiter: string = '\n',
+) {
+  errors = Array.isArray(errors) ? errors : [errors];
+  const errorElements = errors.flatMap(error => getErrorElements(error, ''));
+  const groups = Object.groupBy(errorElements, error => error.propertyPath);
+  const propertyErrors = Object.entries(groups).map(
+    ([propertyPath, errors]) => {
+      const messages = errors
+        ?.flatMap(error => templateString(template, error))
+        .join(', ');
+
+      return `${propertyPath}: ${messages}`;
+    },
+  );
+
+  return propertyErrors.join(delimiter);
+}
+
+function getErrorElements(
   error: ValidationError,
   parentPath: string,
-  template: string,
-): string[] {
+): ErrorElement[] {
   if (!isValidationError(error)) {
     return [];
   }
@@ -56,25 +78,27 @@ function formatError(
   const propertyPath = getPropertyPath(parentPath, error.property);
   const constraints = Object.entries(error.constraints || []);
 
-  const result = constraints.map(([constraintRule, constraintMessage]) => {
-    const [property] = propertyPath.split('.').slice(-1);
-    const stripPart = `${property} `;
+  const result: ErrorElement[] = constraints.map(
+    ([constraintRule, constraintMessage]) => {
+      const [property] = propertyPath.split('.').slice(-1);
+      const stripPart = `${property} `;
 
-    if (constraintMessage.startsWith(stripPart)) {
-      constraintMessage = constraintMessage.slice(stripPart.length);
-    }
+      if (constraintMessage.startsWith(stripPart)) {
+        constraintMessage = constraintMessage.slice(stripPart.length);
+      }
 
-    return templateString(template, {
-      property,
-      propertyPath,
-      constraintMessage,
-      constraintRule,
-    });
-  });
+      return {
+        property: property || '',
+        propertyPath,
+        constraintMessage,
+        constraintRule,
+      };
+    },
+  );
 
   if (error.children && error.children.length > 0) {
     const childErrors = error.children.flatMap(err =>
-      formatError(err, propertyPath, template),
+      getErrorElements(err, propertyPath),
     );
     result.push(...childErrors);
   }

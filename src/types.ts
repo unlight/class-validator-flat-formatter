@@ -1,5 +1,12 @@
 import { Delimiter } from './delimiter.enum';
 
+export interface ErrorElement {
+  property: string;
+  propertyPath: string;
+  constraintMessage: string;
+  constraintRule: string;
+}
+
 /**
  * Validation error description.
  * @see https://github.com/typestack/class-validator
