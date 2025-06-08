@@ -11,7 +11,7 @@ const defaultTemplate =
  */
 export function validationError(
   errors: ValidationError[] | ValidationError,
-  options: ValidationErrorOptions = {},
+  options?: ValidationErrorOptions,
 ) {
   const delimiter = options?.delimiter ?? Delimiter.CS;
   const period = options?.period ?? false;
