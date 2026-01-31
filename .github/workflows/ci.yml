@@ -1,47 +1,41 @@
-name: 'Test / Build / Release'
+name: Continuous Integration
 on:
   - push
   - pull_request
 
 jobs:
-  test:
-    name: 'Test'
+  build:
+    name: 'Test, build, release'
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v3
-      - name: 'Setup node'
-        uses: actions/setup-node@v3
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v6
+
+      - name: 'Setup Node'
+        uses: actions/setup-node@v6
         with:
           node-version: 24
-      - name: 'Install depependencies'
-        run: npm install
-      - name: 'Test'
+
+      - name: 'Install Depependencies'
+        run: npm install --force
+
+      - name: 'Tests'
         run: |
           npm run test
+
       - name: 'Mutation Tests'
         run: |
           npm run test:m
 
-  release:
-    name: 'Release'
-    runs-on: ubuntu-latest
-    needs: test
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/next')
-    steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v3
-      - name: 'Setup Node'
-        uses: actions/setup-node@v3
-        with:
-          node-version: 24
-      - name: 'Install depependencies'
-        run: |
-          npm install
       - name: 'Build'
         run: |
           npm run build
+
       - name: 'Release'
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/next')
         run: |
           npx semantic-release
         env:

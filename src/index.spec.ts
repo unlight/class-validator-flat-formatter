@@ -9,7 +9,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { stripIndents } from 'common-tags';
-import { expect } from 'expect';
+import { it, describe, expect } from 'vitest';
 
 import {
   validationError,

@@ -4,7 +4,7 @@
     "esm": true
   },
   "compilerOptions": {
-    "target": "ES6",
+    "target": "es2024",
     "module": "ES6",
     "moduleResolution": "node",
     "importHelpers": true,
@@ -25,5 +25,5 @@
     "paths": {},
     "plugins": []
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src"]
 }
