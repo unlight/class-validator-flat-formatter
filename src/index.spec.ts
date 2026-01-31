@@ -18,14 +18,15 @@ import {
 } from './index.js';
 import { ValidationError } from './types';
 
-it('built in to string', async () => {
+it('class-validator how it works', async () => {
   class User {
     @Length(3, 30) name!: string;
     @IsNotEmpty() @Min(18) age!: number;
   }
   const user = new User();
   const errors = await validate(user);
-  expect(errors).toBeTruthy();
+  expect(errors).toBeInstanceOf(Array);
+  expect(errors).toHaveLength(2);
 });
 
 it('no errors should return empty', () => {
