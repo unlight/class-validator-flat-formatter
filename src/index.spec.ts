@@ -8,7 +8,6 @@ import {
   validate,
   ValidateNested,
 } from 'class-validator';
-import { stripIndents } from 'common-tags';
 import { it, describe, expect } from 'vitest';
 
 import {
@@ -49,8 +48,8 @@ it('fault tollerance', () => {
   const errors: Partial<ValidationError>[] = [{}];
   expect(validationError(errors as ValidationError[])).toEqual('');
   expect(validationError({} as ValidationError)).toEqual('');
-  expect(validationError(undefined as any)).toEqual('');
-  expect(validationError(null as any)).toEqual('');
+  expect(validationError(undefined as unknown as ValidationError)).toEqual('');
+  expect(validationError(null as unknown as ValidationError)).toEqual('');
 });
 
 it('single error', () => {
@@ -71,9 +70,9 @@ it('several errors with single constraint', async () => {
   const user = new User();
   const errors = await validate(user);
 
-  expect(validationError(errors)).toEqual(stripIndents`
-        name: must be longer than or equal to 3 characters (minLength), password: should not be empty (isNotEmpty)
-        `);
+  expect(validationError(errors)).toEqual(
+    'name: must be longer than or equal to 3 characters (minLength), password: should not be empty (isNotEmpty)',
+  );
 });
 
 describe('nested', () => {
